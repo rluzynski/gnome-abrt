@@ -24,6 +24,7 @@ import subprocess
 import traceback
 import humanize
 import datetime
+import functools
 
 #pygobject
 #pylint: disable=E0611
@@ -105,6 +106,119 @@ class ProblemsFilter(object):
             return False
 
         return self._pattern in app.name
+
+
+class ProblemDisplay(object):
+
+    def __init__(self, window):
+        self._window = window
+
+    def adapt(self, problem):
+        self._adapt_reported(self._window, problem)
+        self._adapt_report_button(self._window, problem)
+
+    def _adapt_reported(self, window, problem):
+        pass
+
+    def _adapt_report_button(self, window, problem):
+        pass
+
+
+class ProblemDisplaySplitter(ProblemDisplay):
+
+    def __init__(self, window, on_display, off_display, switch_func):
+        super(ProblemDisplaySplitter, self).__init__(window)
+
+        self._on_display = on_display
+        self._off_display = off_display
+        self._switch_func = switch_func
+
+    def _select_display(self):
+        if self._switch_func():
+            return self._on_display
+
+        return self._off_display
+
+    def adapt(self, problem):
+        self._select_display().adapt(problem)
+
+    def _adapt_reported(self, window, problem):
+        self._select_display()._adapt_reported(window, problem)
+
+    def _adapt_report_button(self, window, problem):
+        self._select_display()._adapt_report_button(window, problem)
+
+
+class ProblemBugzillaReportingDisplay(ProblemDisplay):
+
+    def __init__(self, window):
+        super(ProblemBugzillaReportingDisplay, self).__init__(window)
+
+    def _adapt_reported(self, window, prblm):
+        if prblm is None or all((not problems.Problem.Submission.URL == s.rtype
+                                       for s in prblm['submission'])):
+            return
+
+        if any((s.name == "Bugzilla" for s in prblm['submission'])):
+            return
+
+        window._show_problem_message(
+_("This problem has been reported, but a <i>Bugzilla</i> ticket has not"
+" been opened. Our developers may need more information to fix the problem.\n"
+"Please consider also <b>reporting it</b> to Bugzilla in"
+" order to provide that. Thank you."))
+
+    def _adapt_report_button(self, window, problem):
+        window._builder.btn_report.set_label(_("Report"))
+        window._builder.btn_report.set_sensitive(
+                problem is not None and not problem['not-reportable'])
+
+
+class ProblemShortReportingDisplay(ProblemDisplay):
+
+    def __init__(self, window):
+        super(ProblemShortReportingDisplay, self).__init__(window)
+
+    def _adapt_report_button(self, window, problem):
+        lbl = _("Report")
+        sensitive = False
+
+        if problem is not None and not problem['not-reportable']:
+            sensitive = not any((s.name == "ABRT Server"
+                                 for s in problem['submission']))
+
+            # not senstive means that problem has already been reported
+            # but it could be an autoreport and user may wish to add a comment
+            if not sensitive and not problem['comment']:
+                # so change the label from 'Report' to 'Comment' and enable it
+                lbl = _("Comment")
+                sensitive = True
+
+        window._builder.btn_report.set_sensitive(sensitive)
+        window._builder.btn_report.set_label(lbl)
+
+
+class WindowResetOptionObserver(object):
+
+    def __init__(self, window):
+        self._window = window
+
+    def option_updated(self, _, __):
+        self._window.reset()
+
+
+def build_problem_display(window):
+    conf = config.get_configuration()
+
+    display = ProblemDisplaySplitter(
+        window,
+        ProblemShortReportingDisplay(window),
+        ProblemBugzillaReportingDisplay(window),
+        functools.partial(conf.get_as_bool, 'ShortenedReporting'))
+
+    conf.set_watch('ShortenedReporting', WindowResetOptionObserver(window))
+
+    return display
 
 
 def problem_to_storage_values(problem):
@@ -391,6 +505,8 @@ class OopsWindow(Gtk.ApplicationWindow):
         if not sources:
             raise ValueError("The source list cannot be empty!")
 
+        self._display = build_problem_display(self)
+
         self._builder = OopsWindow.OopsGtkBuilder()
         self._builder.reset_window(self, OopsWindow._TITLE)
 
@@ -495,6 +611,7 @@ class OopsWindow(Gtk.ApplicationWindow):
             src_btn.connect("clicked", self._on_source_btn_clicked, src)
 
         self._source = self._all_sources[0]
+
 
     def _update_source_button(self, source):
         name = format_button_source_name(source.name, source)
@@ -773,11 +890,16 @@ class OopsWindow(Gtk.ApplicationWindow):
                 widget.destroy()
 
         self.selected_problem = problem
+        self._display_problem(self.selected_problem)
 
+    @handle_problem_and_source_errors
+    def reset(self):
+        self._display_problem(self.selected_problem)
+
+    @handle_problem_and_source_errors
+    def _display_problem(self, problem):
         sensitive_btn = problem is not None
         self._builder.btn_delete.set_sensitive(sensitive_btn)
-        self._builder.btn_report.set_sensitive(
-                sensitive_btn and not problem['not-reportable'])
         self._builder.btn_detail.set_sensitive(sensitive_btn)
         self._builder.vbx_links.foreach(
                 destroy_links, None)
@@ -842,15 +964,7 @@ class OopsWindow(Gtk.ApplicationWindow):
             elif problem['is_reported']:
                 if self._show_problem_links(problem['submission']):
                     self._builder.lbl_reported.set_text(_("Reports"))
-                    self._builder.lbl_reported_value.hide()
-
-                    if (not any((s.name == "Bugzilla"
-                                for s in problem['submission']))):
-                        self._show_problem_message(
-_("This problem has been reported, but a <i>Bugzilla</i> ticket has not"
-" been opened. Our developers may need more information to fix the problem.\n"
-"Please consider also <b>reporting it</b> to Bugzilla in"
-" order to provide that. Thank you."))
+                    self._builder.lbl_reported_value.set_text('')
                 else:
                     self._builder.lbl_reported_value.set_text(_('yes'))
             else:
@@ -860,6 +974,8 @@ _("This problem has been reported, but a <i>Bugzilla</i> ticket has not"
                 self._builder.nb_problem_layout.set_current_page(1)
             else:
                 self._builder.nb_problem_layout.set_current_page(2)
+
+        self._display.adapt(problem)
 
     def _get_selected(self, selection):
         return selection.get_selected_rows()
