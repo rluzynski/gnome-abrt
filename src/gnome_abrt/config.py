@@ -16,6 +16,10 @@
 ## Foundation, Inc., 51 Franklin Street, Suite 500, Boston, MA  02110-1335  USA
 
 import collections
+import logging
+
+# libreport
+import report
 
 def singleton(cls):
     """
@@ -33,6 +37,7 @@ class Configuration(object):
 
     def __init__(self):
         self.options = {}
+        self.app_conf_files = collections.defaultdict(list)
 
     def set_watch(self, option, observer):
         self.options[option].observers.append(observer)
@@ -40,14 +45,15 @@ class Configuration(object):
     def __getitem__(self, option):
         return self.options[option].value
 
-    def __setitem__(self, option, value):
-        opt = self.options[option]
+    def _update_option(self, option_name, option, value):
+        if option.value != value:
+            option.value = value
+            logging.debug("Updating option: {0}".format(option_name))
+            for observer in option.observers:
+                observer.option_updated(self, option_name)
 
-        oldvalue = opt.value
-        if oldvalue != value:
-            opt.value = value
-            for observer in opt.observers:
-                observer.option_updated(self, option)
+    def __setitem__(self, option, value):
+        self._update_option(option, self.options[option], value)
 
     def __delitem__(self, option):
         pass
@@ -75,6 +81,42 @@ class Configuration(object):
         option.observers = []
 
         self.options[short_key] = option
+        return option
+
+    def _reload_app_conf(self, app_name, options):
+        logging.debug("Reloading configuration file: {0}".format(app_name))
+
+        app = None
+        try:
+            app = report.load_app_conf_file(app_name)
+        except OSError as ex:
+            logging.debug("'{0}' conf file not loaded: {1}"
+              .format(app_name, ex.message))
+            return
+
+        for opt in (opt for opt in options if opt.long_key in app):
+            self._update_option(opt.long_key, opt, app[opt.long_key])
+
+    def add_option_from_app_conf_file(self, app_name,
+            option_name=None, default_value=None):
+        """
+        Raises KeyError if option already exists
+        """
+
+        option = self.add_option(option_name,
+                option_name, None, default_value)
+
+        self.app_conf_files[app_name].append(option)
+        self._reload_app_conf(app_name, [option])
+
+    def reaload_app_conf_files(self):
+        logging.debug("Reloading all configuration files")
+        for app_name, options in self.app_conf_files.iteritems():
+            self._reload_app_conf(app_name, options)
+
+    def get_as_bool(self, short_key):
+        opt_val = self[short_key]
+        return opt_val and opt_val.lower() in ["yes", "on", "1"]
 
 
 def get_configuration():

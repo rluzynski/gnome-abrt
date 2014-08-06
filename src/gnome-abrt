@@ -69,6 +69,9 @@ from gnome_abrt.dialogs import show_report_problem_with_abrt
 from gnome_abrt.url.gliburltitle import (GetURLTitleSourcePool,
                                          GetURLTitleSourceCache)
 
+# abrt
+import problem
+
 # dbus
 import dbus
 import dbus.service
@@ -329,6 +332,8 @@ class OopsApplication(Gtk.Application):
         windows = self.get_windows()
         if windows:
             show_system_config_abrt_dialog(windows[0])
+            conf = get_configuration()
+            conf.reaload_app_conf_files()
         else:
             show_system_config_abrt_dialog()
 
@@ -396,6 +401,10 @@ if __name__ == "__main__":
     # TODO : mark this option as hidden or something like that
     CONF.add_option('problemid', default_value=None)
     CONF.add_option('expert', default_value=(OPTIONS.expert))
+
+    # ABRT integration
+    CONF.add_option_from_app_conf_file('abrt-applet', 'ShortenedReporting',
+            default_value=("yes" if problem.SHORTENED_REPORTING else "no"))
 
     APP_CMDLINE = []
     if 'problem' in VARS:
