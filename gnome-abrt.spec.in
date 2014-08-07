@@ -23,7 +23,9 @@ BuildRequires: asciidoc
 BuildRequires: xmlto
 BuildRequires: pygobject3-devel
 BuildRequires: libreport-gtk-devel > 2.0.20
+BuildRequires: libreport-python
 BuildRequires: abrt-gui-devel > 2.1.6.1
+BuildRequires: abrt-python
 BuildRequires: gtk3-devel
 %if 0%{?fedora}
 BuildRequires: pylint
@@ -40,6 +42,8 @@ Requires:   pygobject3
 Requires:   dbus-python
 Requires:   xdg-utils
 Requires:   python-humanize
+Requires:   abrt-python
+Requires:   libreport-python
 
 %description
 A GNOME application allows users to browse through detected problems and
