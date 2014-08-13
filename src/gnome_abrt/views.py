@@ -179,20 +179,15 @@ class ProblemShortReportingDisplay(ProblemDisplay):
     def __init__(self, window):
         super(ProblemShortReportingDisplay, self).__init__(window)
 
-    def _adapt_report_button(self, window, problem):
+    def _adapt_report_button(self, window, prblm):
         lbl = _("Report")
         sensitive = False
 
-        if problem is not None and not problem['not-reportable']:
-            sensitive = not any((s.name == "ABRT Server"
-                                 for s in problem['submission']))
+        if prblm is not None and not prblm['not-reportable']:
+            sensitive = True
 
-            # not senstive means that problem has already been reported
-            # but it could be an autoreport and user may wish to add a comment
-            if not sensitive and not problem['comment']:
-                # so change the label from 'Report' to 'Comment' and enable it
+            if not any((s.name == "ABRT Server" for s in prblm['submission'])):
                 lbl = _("Comment")
-                sensitive = True
 
         window._builder.btn_report.set_sensitive(sensitive)
         window._builder.btn_report.set_label(lbl)
