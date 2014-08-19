@@ -261,7 +261,8 @@ class OopsWindow(Gtk.ApplicationWindow):
             self._builder = builder
 
             self.wnd_main = builder.get_object('wnd_main')
-            self.gr_main_layout = builder.get_object('gr_main_layout')
+            self.box_window = builder.get_object('box_window')
+            self.header_bar = builder.get_object('header_bar')
             self.lbl_reason = builder.get_object('lbl_reason')
             self.lbl_summary = builder.get_object('lbl_summary')
             self.lbl_app_name_value = builder.get_object('lbl_app_name_value')
@@ -297,6 +298,20 @@ class OopsWindow(Gtk.ApplicationWindow):
             self._builder.connect_signals(implementor)
 
             self.search_bar.connect_entry(self.se_problems)
+
+        def reset_window(self, window):
+            window.set_default_size(*self.wnd_main.get_size())
+            self.wnd_main.remove(self.box_window)
+            #pylint: disable=E1101
+            window.add(self.box_window)
+
+            self.box_window.remove(self.header_bar)
+            window.set_titlebar(self.header_bar)
+            self.header_bar.set_show_close_button(True)
+            self.header_bar.set_title(window.get_title())
+
+            # move accelators group from the design window to this window
+            window.add_accel_group(self.ag_accelerators)
 
         def __getattr__(self, name):
             obj = self._builder.get_object(name)
@@ -361,13 +376,7 @@ class OopsWindow(Gtk.ApplicationWindow):
             raise ValueError("The source list cannot be empty!")
 
         self._builder = OopsWindow.OopsGtkBuilder()
-        self.set_default_size(*self._builder.wnd_main.get_size())
-        self._builder.wnd_main.remove(self._builder.gr_main_layout)
-        #pylint: disable=E1101
-        self.add(self._builder.gr_main_layout)
-
-        # move accelators group from the design window to this window
-        self.add_accel_group(self._builder.ag_accelerators)
+        self._builder.reset_window(self)
 
         #pylint: disable=E1120
         css_prv = Gtk.CssProvider.new()
@@ -421,8 +430,7 @@ class OopsWindow(Gtk.ApplicationWindow):
             src_btn.set_visible(True)
             # add an extra member source (I don't like it but it so easy)
             src_btn.source = src
-            self._builder.hbox_source_btns.pack_start(src_btn,
-                    True, True, 0)
+            self._builder.header_bar.pack_start(src_btn)
 
             # add an extra member name (I don't like it but it so easy)
             src.name = name
