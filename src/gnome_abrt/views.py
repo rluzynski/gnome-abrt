@@ -232,6 +232,9 @@ class ProblemListBoxCell(Gtk.Box):
 
 #pylint: disable=R0902
 class OopsWindow(Gtk.ApplicationWindow):
+
+    _TITLE = _("Problem Reporting")
+
     class OopsGtkBuilder(object):
         def __init__(self):
             builder = None
@@ -299,7 +302,7 @@ class OopsWindow(Gtk.ApplicationWindow):
 
             self.search_bar.connect_entry(self.se_problems)
 
-        def reset_window(self, window):
+        def reset_window(self, window, title):
             window.set_default_size(*self.wnd_main.get_size())
             self.wnd_main.remove(self.box_window)
             #pylint: disable=E1101
@@ -308,7 +311,8 @@ class OopsWindow(Gtk.ApplicationWindow):
             self.box_window.remove(self.header_bar)
             window.set_titlebar(self.header_bar)
             self.header_bar.set_show_close_button(True)
-            self.header_bar.set_title(window.get_title())
+            # window.get_title() returns None
+            self.header_bar.set_title(title)
 
             # move accelators group from the design window to this window
             window.add_accel_group(self.ag_accelerators)
@@ -369,14 +373,14 @@ class OopsWindow(Gtk.ApplicationWindow):
 
     def __init__(self, application, sources, controller):
         Gtk.ApplicationWindow.__init__(self,
-                            title=_('Problem Reporting'),
+                            title=OopsWindow._TITLE,
                             application=application)
 
         if not sources:
             raise ValueError("The source list cannot be empty!")
 
         self._builder = OopsWindow.OopsGtkBuilder()
-        self._builder.reset_window(self)
+        self._builder.reset_window(self, OopsWindow._TITLE)
 
         #pylint: disable=E1120
         css_prv = Gtk.CssProvider.new()
