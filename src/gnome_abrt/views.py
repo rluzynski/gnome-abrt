@@ -37,6 +37,7 @@ import gnome_abrt.problems as problems
 import gnome_abrt.config as config
 import gnome_abrt.wrappers as wrappers
 import gnome_abrt.errors as errors
+import gnome_abrt.desktop as desktop
 from gnome_abrt import GNOME_ABRT_UI_DIR
 from gnome_abrt.tools import fancydate, smart_truncate
 from gnome_abrt.l10n import _, GETTEXT_PROGNAME
@@ -265,7 +266,6 @@ class OopsWindow(Gtk.ApplicationWindow):
 
             self.wnd_main = builder.get_object('wnd_main')
             self.box_window = builder.get_object('box_window')
-            self.header_bar = builder.get_object('header_bar')
             self.box_sources_switcher = builder.get_object('box_sources_switcher')
             self.lbl_reason = builder.get_object('lbl_reason')
             self.lbl_summary = builder.get_object('lbl_summary')
@@ -297,6 +297,7 @@ class OopsWindow(Gtk.ApplicationWindow):
             self.menu_multiple_problems = builder.get_object(
                     'menu_multiple_problems')
             self.ag_accelerators = builder.get_object('ag_accelerators')
+            self.header_bar = None
 
         def connect_signals(self, implementor):
             self._builder.connect_signals(implementor)
@@ -304,16 +305,26 @@ class OopsWindow(Gtk.ApplicationWindow):
             self.search_bar.connect_entry(self.se_problems)
 
         def reset_window(self, window, title):
+            def move_widget(widget, direction):
+                packing = direction[0].query_child_packing(widget)
+                direction[0].remove(widget)
+                if packing[3] == Gtk.PackType.START:
+                    direction[1].pack_start(widget)
+                else:
+                    direction[1].pack_end(widget)
+
             window.set_default_size(*self.wnd_main.get_size())
             self.wnd_main.remove(self.box_window)
             #pylint: disable=E1101
             window.add(self.box_window)
 
-            self.box_window.remove(self.header_bar)
-            window.set_titlebar(self.header_bar)
-            self.header_bar.set_show_close_button(True)
-            # window.get_title() returns None
-            self.header_bar.set_title(title)
+            if desktop.replace_window_header():
+                self.header_bar = Gtk.HeaderBar.new()
+                self.box_header.foreach(move_widget, (self.box_header, self.header_bar))
+                window.set_titlebar(self.header_bar)
+                self.header_bar.set_show_close_button(True)
+                # window.get_title() returns None
+                self.header_bar.set_title(title)
 
             # move accelators group from the design window to this window
             window.add_accel_group(self.ag_accelerators)
