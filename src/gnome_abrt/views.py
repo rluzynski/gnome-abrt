@@ -266,6 +266,7 @@ class OopsWindow(Gtk.ApplicationWindow):
             self.wnd_main = builder.get_object('wnd_main')
             self.box_window = builder.get_object('box_window')
             self.header_bar = builder.get_object('header_bar')
+            self.box_sources_switcher = builder.get_object('box_sources_switcher')
             self.lbl_reason = builder.get_object('lbl_reason')
             self.lbl_summary = builder.get_object('lbl_summary')
             self.lbl_app_name_value = builder.get_object('lbl_app_name_value')
@@ -434,7 +435,9 @@ class OopsWindow(Gtk.ApplicationWindow):
             src_btn.set_visible(True)
             # add an extra member source (I don't like it but it so easy)
             src_btn.source = src
-            self._builder.header_bar.pack_start(src_btn)
+            src_btn.set_margin_top(5)
+            src_btn.set_margin_bottom(5)
+            self._builder.box_sources_switcher.pack_start(src_btn, False, True, 0)
 
             # add an extra member name (I don't like it but it so easy)
             src.name = name
