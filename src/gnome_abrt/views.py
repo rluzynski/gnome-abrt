@@ -880,10 +880,6 @@ class OopsWindow(Gtk.ApplicationWindow):
 
     @handle_problem_and_source_errors
     def _set_problem(self, problem):
-        def destroy_links(widget, _):
-            if widget != self._builder.lbl_reported_value:
-                widget.destroy()
-
         self.selected_problem = problem
         self._display_problem(self.selected_problem)
 
@@ -893,6 +889,10 @@ class OopsWindow(Gtk.ApplicationWindow):
 
     @handle_problem_and_source_errors
     def _display_problem(self, problem):
+        def destroy_links(widget, _):
+            if widget != self._builder.lbl_reported_value:
+                widget.destroy()
+
         sensitive_btn = problem is not None
         self._builder.btn_delete.set_sensitive(sensitive_btn)
         self._builder.btn_detail.set_sensitive(sensitive_btn)
