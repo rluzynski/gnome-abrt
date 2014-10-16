@@ -23,6 +23,14 @@
       <accelerator key="Return"/>
     </child>
     <child>
+      <object class="GtkAction" id="gac_comment">
+        <property name="label" translatable="yes">_Comment</property>
+        <property name="tooltip" translatable="yes">Submits a comment on previously reported problem</property>
+        <signal name="activate" handler="on_gac_comment_activate" swapped="no"/>
+      </object>
+      <accelerator key="Return"/>
+    </child>
+    <child>
       <object class="GtkAction" id="gac_analyze">
         <property name="label" translatable="yes">Analy_ze</property>
         <property name="tooltip" translatable="yes">Open selected problem for analysis</property>
@@ -162,6 +170,31 @@
                 <property name="label" translatable="yes">_Report</property>
                 <property name="related_action">gac_report</property>
                 <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="halign">end</property>
+                <property name="valign">end</property>
+                <property name="margin_left">5</property>
+                <property name="margin_right">5</property>
+                <property name="margin_top">5</property>
+                <property name="margin_bottom">5</property>
+                <property name="use_underline">True</property>
+                <style>
+                  <class name="suggested-action"/>
+                </style>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="pack_type">end</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="btn_comment">
+                <property name="label" translatable="yes">_Comment</property>
+                <property name="related_action">gac_comment</property>
+                <property name="visible">False</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="halign">end</property>

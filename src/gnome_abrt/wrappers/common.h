@@ -24,3 +24,6 @@ PyObject *p_show_system_config_abrt_dialog(PyObject *module, PyObject *args);
 
 /* Problem Details */
 PyObject *p_show_problem_details_for_dir(PyObject *module, PyObject *args);
+
+/* LibReportWindow */
+PyObject *p_lib_report_window_new_for_dir_events(PyObject *module, PyObject *args);

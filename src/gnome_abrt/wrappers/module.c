@@ -17,12 +17,14 @@
     51 Franklin Street, Suite 500, Boston, MA  02110-1335  USA
 */
 #include "common.h"
+#include <pygobject.h>
 
 static PyMethodDef module_methods[] = {
     /* method_name, func, flags, doc_string */
     { "show_events_list_dialog", p_show_events_list_dialog, METH_VARARGS, "Open a dialog with event configurations" },
     { "show_system_config_abrt_dialog", p_show_system_config_abrt_dialog, METH_VARARGS, "Open a dialog with ABRT configuration" },
     { "show_problem_details_for_dir", p_show_problem_details_for_dir, METH_VARARGS, "Open a dialog with technical details" },
+    { "lib_report_window_new_for_dir_events", p_lib_report_window_new_for_dir_events, METH_VARARGS, "Creates an instance of LibReportWindow and uses the list of events" },
     { NULL }
 };
 
@@ -35,4 +37,6 @@ init_wrappers(void)
 {
     if (!Py_InitModule("_wrappers", module_methods))
         printf("Py_InitModule() == NULL\n");
+
+    pygobject_init(-1, -1, -1);
 }

@@ -28,6 +28,8 @@ import functools
 
 #pygobject
 #pylint: disable=E0611
+from gi.repository import GLib
+#pylint: disable=E0611
 from gi.repository import Gtk
 #pylint: disable=E0611
 from gi.repository import Gdk
@@ -180,17 +182,27 @@ class ProblemShortReportingDisplay(ProblemDisplay):
         super(ProblemShortReportingDisplay, self).__init__(window)
 
     def _adapt_report_button(self, window, prblm):
-        lbl = _("Report")
-        sensitive = False
-
         if prblm is not None and not prblm['not-reportable']:
-            sensitive = True
+            active_btn = None
+            inactive_btn  = None
 
-            if not any((s.name == "ABRT Server" for s in prblm['submission'])):
-                lbl = _("Comment")
+            if prblm['is_reported']:
+                print "Comment active"
+                active_btn = window._builder.btn_comment
+                inactive_btn = window._builder.btn_report
+            else:
+                active_btn = window._builder.btn_report
+                inactive_btn = window._builder.btn_comment
 
-        window._builder.btn_report.set_sensitive(sensitive)
-        window._builder.btn_report.set_label(lbl)
+            inactive_btn.set_sensitive(False)
+            inactive_btn.hide()
+
+            active_btn.set_sensitive(True)
+            active_btn.show()
+        else:
+            window._builder.btn_report.set_sensitive(False)
+            window._builder.btn_report.show()
+            window._builder.btn_comment.hide()
 
 
 class WindowResetOptionObserver(object):
@@ -392,6 +404,7 @@ class OopsWindow(Gtk.ApplicationWindow):
             self.btn_delete = builder.get_object('btn_delete')
             self.btn_report = builder.get_object('btn_report')
             self.btn_detail = builder.get_object('btn_detail')
+            self.btn_comment = builder.get_object('btn_comment')
             self.se_problems = builder.get_object('se_problems')
             self.search_bar = builder.get_object('search_bar')
             self.chb_all_problems = builder.get_object('chb_all_problems')
@@ -399,6 +412,7 @@ class OopsWindow(Gtk.ApplicationWindow):
             self.vbx_problem_messages = builder.get_object(
                     'vbx_problem_messages')
             self.gac_report = builder.get_object('gac_report')
+            self.gac_comment = builder.get_object('gac_comment')
             self.gac_delete = builder.get_object('gac_delete')
             self.gac_open_directory = builder.get_object('gac_open_directory')
             self.gac_copy_id = builder.get_object('gac_copy_id')
@@ -429,6 +443,7 @@ class OopsWindow(Gtk.ApplicationWindow):
                 self.header_bar.pack_end(self.btn_detail)
                 self.header_bar.pack_end(self.btn_report)
                 self.header_bar.pack_end(self.btn_delete)
+                self.header_bar.pack_end(self.btn_comment)
 
                 window.set_titlebar(self.header_bar)
                 self.header_bar.set_show_close_button(True)
@@ -501,7 +516,7 @@ class OopsWindow(Gtk.ApplicationWindow):
             raise ValueError("The source list cannot be empty!")
 
         self._display = build_problem_display(self)
-
+        self._application = application
         self._builder = OopsWindow.OopsGtkBuilder()
         self._builder.reset_window(self, OopsWindow._TITLE)
 
@@ -1017,6 +1032,13 @@ class OopsWindow(Gtk.ApplicationWindow):
         selected = self._get_selected(self.lss_problems)
         if selected and not selected[0]['not-reportable']:
             self._controller.report(selected[0])
+
+    @handle_problem_and_source_errors
+    def on_gac_comment_activate(self, action):
+        selected = self._get_selected(self.lss_problems)
+        if selected and selected[0]['is_reported']:
+            lrwnd = wrappers.lib_report_window_new_for_dir_events(
+            self._application, selected[0].problem_id, ["comment_uReport"])
 
     @handle_problem_and_source_errors
     def on_se_problems_search_changed(self, entry):
