@@ -15,8 +15,7 @@ gnome_abrtexec_PYTHON = \
 	signals.py \
 	tools.py \
 	views.py \
-	l10n.py \
-	desktop.py
+	l10n.py
 
 controller.py: controller.py.in Makefile
 	sed -e s,\@libexecdir\@,$(libexecdir),g $< > $@
@@ -27,7 +26,7 @@ __init__.py: __init__.py.in Makefile
 	-e s,\@GNOME_ABRT_UI_DIR\@,$(uidir),g \
 	-e s,\@localedir\@,$(localedir),g $< > $@
 
-dist_ui_DATA = oops.glade
+dist_ui_DATA = oops.glade style.css
 uidir = $(pkgdatadir)/ui
 
 gnome_abrtdir = $(pythondir)/gnome_abrt

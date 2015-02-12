@@ -1,0 +1,49 @@
+/*
+ * GNOME Abrt
+ */
+
+ContactsListPane.frame:dir(ltr) {
+  border-width: 0 1px 0 0;
+}
+
+ContactsListPane.frame:dir(rtl) {
+  border-width: 0 0 0 1px;
+}
+
+.contacts-map {
+    background-color: @theme_bg_color;
+}
+
+/* contatcs view new color */
+.contacts-view {
+  background-color: transparent;
+}
+
+/* Background color in contacts pane, similar to .documents-main-view.view */
+.contacts-main-view.view {
+  background-color: mix(@theme_bg_color, @theme_base_color, 0.2);
+}
+
+.contacts-suggestion {
+  background-color: darker(@theme_bg_color);
+}
+
+/* Border on the right in the left menu toolbar */
+.contacts-left-header-bar:dir(ltr) {
+ border-right-width: 1px;
+}
+
+.contacts-left-header-bar:dir(rtl) {
+ border-left-width: 1px;
+}
+
+.contacts-left-header-bar:dir(ltr),
+.contacts-right-header-bar:dir(rtl) {
+  border-top-right-radius: 0;
+}
+
+.contacts-right-header-bar:dir(ltr),
+.contacts-left-header-bar:dir(rtl) {
+  border-top-left-radius: 0;
+}
+

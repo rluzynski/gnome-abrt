@@ -38,7 +38,6 @@ import gnome_abrt.problems as problems
 import gnome_abrt.config as config
 import gnome_abrt.wrappers as wrappers
 import gnome_abrt.errors as errors
-import gnome_abrt.desktop as desktop
 from gnome_abrt import GNOME_ABRT_UI_DIR
 from gnome_abrt.tools import fancydate, smart_truncate
 from gnome_abrt.l10n import _, GETTEXT_PROGNAME
@@ -267,7 +266,8 @@ class OopsWindow(Gtk.ApplicationWindow):
                     builder = Gtk.Builder()
                     builder.set_translation_domain(GETTEXT_PROGNAME)
                     try:
-                        builder.add_from_file(filename=glade_file)
+                        builder.add_objects_from_file(filename=glade_file,
+                                                      object_ids=['box_header', 'image1', 'gr_main_layout', 'gag_problem_actions', 'menu_problem_item', 'menu_multiple_problems', 'ag_accelerators'])
                     #pylint: disable=E0712
                     except GObject.GError as ex:
                         builder = None
@@ -284,10 +284,9 @@ class OopsWindow(Gtk.ApplicationWindow):
 
             self._builder = builder
 
-            self.wnd_main = builder.get_object('wnd_main')
-            self.box_window = builder.get_object('box_window')
-            self.box_sources_switcher = builder.get_object(
-                    'box_sources_switcher')
+            self.gr_main_layout = builder.get_object('gr_main_layout')
+            self.box_header = builder.get_object('box_header')
+
             self.lbl_reason = builder.get_object('lbl_reason')
             self.lbl_summary = builder.get_object('lbl_summary')
             self.lbl_app_name_value = builder.get_object('lbl_app_name_value')
@@ -314,6 +313,7 @@ class OopsWindow(Gtk.ApplicationWindow):
             self.gac_open_directory = builder.get_object('gac_open_directory')
             self.gac_copy_id = builder.get_object('gac_copy_id')
             self.gac_search = builder.get_object('gac_search')
+
             self.menu_problem_item = builder.get_object('menu_problem_item')
             self.menu_multiple_problems = builder.get_object(
                     'menu_multiple_problems')
@@ -326,29 +326,19 @@ class OopsWindow(Gtk.ApplicationWindow):
             self.search_bar.connect_entry(self.se_problems)
 
         def reset_window(self, window, title):
-            window.set_default_size(*self.wnd_main.get_size())
-            self.wnd_main.remove(self.box_window)
             #pylint: disable=E1101
-            window.add(self.box_window)
-
-            if desktop.replace_window_header():
-                self.box_header.foreach(lambda w, c: c.remove(w),
-                        self.box_header)
-
-                self.header_bar = Gtk.HeaderBar.new()
-                self.header_bar.pack_start(self.box_sources_switcher)
-                self.header_bar.pack_start(self.tbtn_multi_select)
-                self.header_bar.pack_end(self.btn_detail)
-                self.header_bar.pack_end(self.btn_report)
-                self.header_bar.pack_end(self.btn_delete)
-
-                window.set_titlebar(self.header_bar)
-                self.header_bar.set_show_close_button(True)
-                # window.get_title() returns None
-                self.header_bar.set_title(title)
+            window.add(self.gr_main_layout)
+            window.set_titlebar(self.box_header)
 
             # move accelators group from the design window to this window
             window.add_accel_group(self.ag_accelerators)
+
+            # apply styling
+            provider = Gtk.CssProvider()
+            provider.load_from_path (GNOME_ABRT_UI_DIR + '/style.css')
+            Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default(),
+                                                      provider,
+                                                      Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 
         def __getattr__(self, name):
             obj = self._builder.get_object(name)
@@ -386,7 +376,6 @@ class OopsWindow(Gtk.ApplicationWindow):
                     elif change_type == problems.ProblemSource.CHANGED_PROBLEM:
                         self.wnd._update_problem_in_storage(problem)
 
-                self.wnd._update_source_button(source)
             except errors.UnavailableSource as ex:
                 self.wnd._disable_source(ex.source, ex.temporary)
 
@@ -453,7 +442,6 @@ class OopsWindow(Gtk.ApplicationWindow):
         self._source = None
         self._handling_source_click = False
         self._configure_sources(sources)
-        self._set_button_toggled(self._source.button, True)
 
         # a set where invalid problems found while sorting of the problem list
         # are stored
@@ -499,58 +487,12 @@ class OopsWindow(Gtk.ApplicationWindow):
                 logging.debug("Unavailable source: {0}".format(name))
                 continue
 
-            src_btn = Gtk.ToggleButton.new_with_label(label)
-            src_btn.set_visible(True)
-            # add an extra member source (I don't like it but it so easy)
-            src_btn.source = src
-            self._builder.box_sources_switcher.pack_start(
-                    src_btn, False, True, 0)
-
             # add an extra member name (I don't like it but it so easy)
             src.name = name
-            # add an extra member button (I don't like it but it so easy)
-            src.button = src_btn
             # add an extra member allow_details (I don't like it but it so easy)
             src.allow_details = allow_details
-            src_btn.connect("clicked", self._on_source_btn_clicked, src)
 
         self._source = self._all_sources[0]
-
-    def _update_source_button(self, source):
-        name = format_button_source_name(source.name, source)
-        source.button.set_label(name)
-
-    def _set_button_toggled(self, button, state):
-        # set_active() triggers the clicked signal
-        # and if we set the active in program,
-        # we don't want do any action in the clicked handler
-        self._handling_source_click = True
-        try:
-            button.set_active(state)
-        finally:
-            self._handling_source_click = False
-
-    def _on_source_btn_clicked(self, btn, args):
-        # If True, then button's state was not changed by click
-        # and we don't want to switch source
-        if self._handling_source_click:
-            return
-
-        res, old_source = self._switch_source(btn.source)
-        if not res:
-            # switching sources failed and we have to untoggle clicked
-            # source's button
-            self._set_button_toggled(btn, False)
-        else:
-            self._update_detail_buttons_visibility()
-            if old_source is not None:
-                # sources were switched and we have to untoggle old source's
-                # button
-                self._set_button_toggled(old_source.button, False)
-            elif not btn.get_active():
-                # source wasn't changed and we have to set toggled back if
-                # someone clicked already selected button
-                self._set_button_toggled(btn, True)
 
     def _switch_source(self, source):
         """Sets the passed source as the selected source."""

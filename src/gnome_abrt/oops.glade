@@ -142,18 +142,93 @@
       <group name="ag_accelerators"/>
     </accel-groups>
     <child>
-      <object class="GtkBox" id="box_window">
+      <object class="GtkBox" id="gr_main_layout">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
+        <property name="can_focus">True</property>
         <child>
-          <object class="GtkBox" id="box_header">
+          <object class="GtkBox" id="box1">
+            <property name="width_request">300</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="halign">start</property>
+            <property name="orientation">vertical</property>
             <child>
-              <object class="GtkStackSwitcher" id="box_sources_switcher">
+              <object class="GtkSearchBar" id="search_bar">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkSearchEntry" id="se_problems">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="can_default">True</property>
+                    <property name="no_show_all">True</property>
+                    <property name="primary_icon_name">edit-find-symbolic</property>
+                    <property name="primary_icon_activatable">False</property>
+                    <property name="primary_icon_sensitive">False</property>
+                    <signal name="key-press-event" handler="on_se_problems_key_press_event" swapped="no"/>
+                    <signal name="search-changed" handler="on_se_problems_search_changed" swapped="no"/>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox" id="vbox_problems">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="hexpand">True</property>
+                <property name="vexpand">True</property>
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="GtkBox" id="hbox_source_btns">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkScrolledWindow" id="scrolledwindow1">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="shadow_type">in</property>
+                    <child>
+                      <object class="GtkViewport" id="viewport1">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <object class="GtkListBox" id="lb_problems">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="selection_mode">browse</property>
+                            <signal name="button-press-event" handler="problems_button_press_event" swapped="no"/>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -161,22 +236,526 @@
                 <property name="position">1</property>
               </packing>
             </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox" id="box2">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="GtkNotebook" id="nb_problem_layout">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_start">24</property>
+                <property name="margin_top">32</property>
+                <property name="hexpand">True</property>
+                <property name="vexpand">True</property>
+                <property name="show_tabs">False</property>
+                <property name="show_border">False</property>
+                <child>
+                  <object class="GtkGrid" id="gd_problem_info">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="hexpand">True</property>
+                    <child>
+                      <object class="GtkImage" id="img_app_icon">
+                        <property name="width_request">156</property>
+                        <property name="height_request">156</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="halign">center</property>
+                        <property name="valign">start</property>
+                        <property name="icon_name">image-missing-symbolic</property>
+                        <property name="icon_size">3</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="top_attach">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkBox" id="vbx_problem_header">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="hexpand">True</property>
+                        <property name="orientation">vertical</property>
+                        <child>
+                          <object class="GtkLabel" id="lbl_reason">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="margin_top">19</property>
+                            <property name="hexpand">True</property>
+                            <property name="label">Application killed by signal</property>
+                            <property name="wrap">True</property>
+                            <property name="selectable">True</property>
+                            <property name="ellipsize">end</property>
+                            <property name="xalign">0</property>
+                            <property name="yalign">0</property>
+                            <style>
+                              <class name="oops-reason"/>
+                            </style>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="lbl_summary">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="hexpand">True</property>
+                            <property name="label">Application can't continue becuase of received signal</property>
+                            <property name="wrap">True</property>
+                            <property name="selectable">True</property>
+                            <property name="xalign">0</property>
+                            <property name="yalign">0</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">3</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkGrid" id="gd_problem_data">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <object class="GtkLabel" id="lbl_app_name">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="halign">end</property>
+                            <property name="margin_end">12</property>
+                            <property name="margin_top">8</property>
+                            <property name="margin_bottom">8</property>
+                            <property name="label" translatable="yes">Name</property>
+                            <property name="wrap">True</property>
+                            <attributes>
+                              <attribute name="foreground" value="#87877e7e8080"/>
+                            </attributes>
+                          </object>
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="top_attach">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="lbl_app_version">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="halign">end</property>
+                            <property name="margin_end">12</property>
+                            <property name="margin_top">8</property>
+                            <property name="margin_bottom">8</property>
+                            <property name="label" translatable="yes">Version</property>
+                            <attributes>
+                              <attribute name="foreground" value="#87877e7e8080"/>
+                            </attributes>
+                          </object>
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="top_attach">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="lbl_detected">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="halign">end</property>
+                            <property name="margin_end">12</property>
+                            <property name="margin_top">8</property>
+                            <property name="margin_bottom">8</property>
+                            <property name="label" translatable="yes">Detected</property>
+                            <attributes>
+                              <attribute name="foreground" value="#87877e7e8080"/>
+                            </attributes>
+                          </object>
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="top_attach">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="lbl_app_name_value">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="halign">start</property>
+                            <property name="label">app</property>
+                            <property name="selectable">True</property>
+                            <property name="ellipsize">end</property>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="top_attach">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="lbl_app_version_value">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="halign">start</property>
+                            <property name="label">2.0.13-2</property>
+                            <property name="selectable">True</property>
+                            <property name="ellipsize">end</property>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="top_attach">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="lbl_detected_value">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="halign">start</property>
+                            <property name="label">2013-04-09 18:55</property>
+                            <property name="selectable">True</property>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="top_attach">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkScrolledWindow" id="gsw_links">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="margin_top">3</property>
+                            <property name="hexpand">True</property>
+                            <property name="vexpand">True</property>
+                            <child>
+                              <object class="GtkViewport" id="gv_links">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="hexpand">True</property>
+                                <property name="vexpand">True</property>
+                                <property name="shadow_type">none</property>
+                                <child>
+                                  <object class="GtkBox" id="vbx_links">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="hexpand">True</property>
+                                    <property name="orientation">vertical</property>
+                                    <child>
+                                      <object class="GtkLabel" id="lbl_reported_value">
+                                        <property name="can_focus">False</property>
+                                        <property name="no_show_all">True</property>
+                                        <property name="halign">start</property>
+                                        <property name="margin_top">5</property>
+                                        <property name="label">no</property>
+                                        <property name="selectable">True</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="label1">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="halign">start</property>
+                                        <property name="margin_top">8</property>
+                                        <property name="margin_bottom">8</property>
+                                        <property name="label">&lt;a href="https://glade.gnome.org/"&gt;Very long placeholder URL tile&lt;/a&gt;</property>
+                                        <property name="use_markup">True</property>
+                                        <property name="ellipsize">middle</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="label2">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="halign">start</property>
+                                        <property name="margin_top">8</property>
+                                        <property name="margin_bottom">8</property>
+                                        <property name="label">&lt;a href="https://github.com/abrt/gnome-abrt"&gt;Placeholder URL&lt;/a&gt;</property>
+                                        <property name="use_markup">True</property>
+                                        <property name="lines">1</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">2</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="top_attach">3</property>
+                            <property name="width">2</property>
+                            <property name="height">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="lbl_reported">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="halign">end</property>
+                            <property name="valign">start</property>
+                            <property name="margin_end">12</property>
+                            <property name="margin_top">8</property>
+                            <property name="margin_bottom">8</property>
+                            <property name="label" translatable="yes">Reported</property>
+                            <property name="wrap">True</property>
+                            <attributes>
+                              <attribute name="foreground" value="#87877e7e8080"/>
+                            </attributes>
+                          </object>
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="top_attach">3</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkScrolledWindow" id="gsw_problem_messages">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="vexpand">True</property>
+                        <child>
+                          <object class="GtkViewport" id="gvp_problem_messages">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="vexpand">True</property>
+                            <property name="shadow_type">none</property>
+                            <child>
+                              <object class="GtkBox" id="vbx_problem_messages">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="vexpand">True</property>
+                                <property name="orientation">vertical</property>
+                                <child>
+                                  <placeholder/>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="btn_detail">
+                        <property name="label">button</property>
+                        <property name="use_action_appearance">True</property>
+                        <property name="related_action">gac_detail</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="halign">end</property>
+                        <property name="margin_start">12</property>
+                        <property name="margin_end">12</property>
+                        <property name="margin_top">12</property>
+                        <property name="margin_bottom">12</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">3</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </object>
+                </child>
+                <child type="tab">
+                  <object class="GtkLabel" id="lbl_page_problem">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label">Problem page</property>
+                  </object>
+                  <packing>
+                    <property name="tab_fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox" id="vbx_empty_page">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <object class="GtkLabel" id="lbl_no_oopses">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="hexpand">True</property>
+                        <property name="vexpand">True</property>
+                        <property name="label" translatable="yes">No problems detected!</property>
+                        <property name="selectable">True</property>
+                        <style>
+                          <class name="dim-label"/>
+                        </style>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child type="tab">
+                  <object class="GtkLabel" id="lbl_page_empty">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label">Empty page</property>
+                  </object>
+                  <packing>
+                    <property name="position">1</property>
+                    <property name="tab_fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox" id="vbx_no_source_page">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <object class="GtkLabel" id="lbl_no_source">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="hexpand">True</property>
+                        <property name="vexpand">True</property>
+                        <property name="label" translatable="yes">No source selected!</property>
+                        <property name="selectable">True</property>
+                        <style>
+                          <class name="dim-label"/>
+                        </style>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+                <child type="tab">
+                  <object class="GtkLabel" id="lbl_page_no_source">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">No source</property>
+                  </object>
+                  <packing>
+                    <property name="position">2</property>
+                    <property name="tab_fill">False</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+    <child type="titlebar">
+      <object class="GtkBox" id="box_header">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <child>
+          <object class="GtkHeaderBar" id="box_header_start">
+            <property name="width_request">300</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="title">Problems</property>
             <child>
               <object class="GtkToggleButton" id="tbtn_multi_select">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="margin_start">70</property>
+                <property name="halign">end</property>
                 <property name="image">image1</property>
                 <property name="use_underline">True</property>
                 <signal name="toggled" handler="on_tbtn_multi_select_toggled" swapped="no"/>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">2</property>
+                <property name="pack_type">end</property>
               </packing>
             </child>
+            <style>
+              <class name="contacts-left-header-bar"/>
+              <class name="titlebar"/>
+            </style>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHeaderBar" id="box_header_end">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="show_close_button">True</property>
             <child>
               <object class="GtkButton" id="btn_report">
                 <property name="label" translatable="yes">_Report</property>
@@ -192,29 +771,8 @@
                 </style>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
                 <property name="pack_type">end</property>
                 <property name="position">3</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="btn_analyze">
-                <property name="label" translatable="yes">Analy_ze</property>
-                <property name="related_action">gac_detail</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="no_show_all">True</property>
-                <property name="halign">end</property>
-                <property name="valign">end</property>
-                <property name="use_underline">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="pack_type">end</property>
-                <property name="position">4</property>
               </packing>
             </child>
             <child>
@@ -229,604 +787,20 @@
                 <property name="use_underline">True</property>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
                 <property name="pack_type">end</property>
                 <property name="position">5</property>
               </packing>
             </child>
+            <style>
+              <class name="contacts-right-header-bar"/>
+              <class name="titlebar"/>
+            </style>
           </object>
           <packing>
-            <property name="expand">False</property>
+            <property name="expand">True</property>
             <property name="fill">True</property>
-            <property name="position">0</property>
+            <property name="position">1</property>
           </packing>
-        </child>
-        <child>
-          <object class="GtkPaned" id="gr_main_layout">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="position">310</property>
-            <child>
-              <object class="GtkBox" id="box1">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="orientation">vertical</property>
-                <child>
-                  <object class="GtkSearchBar" id="search_bar">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="show-close-button">False</property>
-                    <child>
-                    <object class="GtkSearchEntry" id="se_problems">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="can_default">True</property>
-                        <property name="has_default">True</property>
-                        <property name="no_show_all">True</property>
-                        <property name="margin_start">0</property>
-                        <property name="margin_end">0</property>
-                        <property name="margin_top">0</property>
-                        <property name="margin_bottom">0</property>
-                        <property name="primary_icon_name">edit-find-symbolic</property>
-                        <property name="primary_icon_activatable">False</property>
-                        <property name="primary_icon_sensitive">False</property>
-                        <signal name="search-changed" handler="on_se_problems_search_changed" swapped="no"/>
-                        <signal name="key-press-event" handler="on_se_problems_key_press_event" swapped="no"/>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox" id="vbox_problems">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="hexpand">True</property>
-                    <property name="vexpand">True</property>
-                    <property name="orientation">vertical</property>
-                    <child>
-                      <object class="GtkBox" id="hbox_source_btns">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkScrolledWindow" id="scrolledwindow1">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <child>
-                          <object class="GtkViewport" id="viewport1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <child>
-                              <object class="GtkListBox" id="lb_problems">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="selection_mode">browse</property>
-                                <signal name="button-press-event" handler="problems_button_press_event" swapped="no"/>
-                              </object>
-                            </child>
-                          </object>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="resize">False</property>
-                <property name="shrink">False</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkBox" id="box2">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="orientation">vertical</property>
-                <child>
-                  <object class="GtkNotebook" id="nb_problem_layout">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="margin_start">24</property>
-                    <property name="margin_top">32</property>
-                    <property name="hexpand">True</property>
-                    <property name="vexpand">True</property>
-                    <property name="show_tabs">False</property>
-                    <property name="show_border">False</property>
-                    <child>
-                      <object class="GtkGrid" id="gd_problem_info">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="hexpand">True</property>
-                        <child>
-                          <object class="GtkImage" id="img_app_icon">
-                            <property name="width_request">156</property>
-                            <property name="height_request">156</property>
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="halign">center</property>
-                            <property name="valign">start</property>
-                            <property name="icon_name">image-missing-symbolic</property>
-                            <property name="icon_size">3</property>
-                          </object>
-                          <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkBox" id="vbx_problem_header">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="hexpand">True</property>
-                            <property name="orientation">vertical</property>
-                            <child>
-                              <object class="GtkLabel" id="lbl_reason">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="hexpand">True</property>
-                                <property name="xalign">0</property>
-                                <property name="yalign">0</property>
-                                <property name="margin_top">19</property>
-                                <property name="label">Application killed by signal</property>
-                                <property name="wrap">True</property>
-                                <property name="selectable">True</property>
-                                <property name="ellipsize">end</property>
-                                <style>
-                                  <class name="oops-reason"/>
-                                </style>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel" id="lbl_summary">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="hexpand">True</property>
-                                <property name="xalign">0</property>
-                                <property name="yalign">0</property>
-                                <property name="label">Application can't continue becuase of received signal</property>
-                                <property name="wrap">True</property>
-                                <property name="selectable">True</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">3</property>
-                              </packing>
-                            </child>
-                          </object>
-                          <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkGrid" id="gd_problem_data">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <child>
-                              <object class="GtkLabel" id="lbl_app_name">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="halign">end</property>
-                                <property name="margin_end">12</property>
-                                <property name="margin_top">8</property>
-                                <property name="margin_bottom">8</property>
-                                <property name="label" translatable="yes">Name</property>
-                                <property name="wrap">True</property>
-                                <attributes>
-                                  <attribute name="foreground" value="#87877e7e8080"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left_attach">0</property>
-                                <property name="top_attach">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel" id="lbl_app_version">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="halign">end</property>
-                                <property name="margin_end">12</property>
-                                <property name="margin_top">8</property>
-                                <property name="margin_bottom">8</property>
-                                <property name="label" translatable="yes">Version</property>
-                                <attributes>
-                                  <attribute name="foreground" value="#87877e7e8080"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left_attach">0</property>
-                                <property name="top_attach">1</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel" id="lbl_detected">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="halign">end</property>
-                                <property name="margin_end">12</property>
-                                <property name="margin_top">8</property>
-                                <property name="margin_bottom">8</property>
-                                <property name="label" translatable="yes">Detected</property>
-                                <attributes>
-                                  <attribute name="foreground" value="#87877e7e8080"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left_attach">0</property>
-                                <property name="top_attach">2</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel" id="lbl_app_name_value">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="halign">start</property>
-                                <property name="label">app</property>
-                                <property name="selectable">True</property>
-                                <property name="ellipsize">end</property>
-                              </object>
-                              <packing>
-                                <property name="left_attach">1</property>
-                                <property name="top_attach">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel" id="lbl_app_version_value">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="halign">start</property>
-                                <property name="label">2.0.13-2</property>
-                                <property name="selectable">True</property>
-                                <property name="ellipsize">end</property>
-                              </object>
-                              <packing>
-                                <property name="left_attach">1</property>
-                                <property name="top_attach">1</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel" id="lbl_detected_value">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="halign">start</property>
-                                <property name="label">2013-04-09 18:55</property>
-                                <property name="selectable">True</property>
-                              </object>
-                              <packing>
-                                <property name="left_attach">1</property>
-                                <property name="top_attach">2</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkScrolledWindow" id="gsw_links">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="margin_top">3</property>
-                                <property name="hexpand">True</property>
-                                <property name="vexpand">True</property>
-                                <child>
-                                  <object class="GtkViewport" id="gv_links">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="hexpand">True</property>
-                                    <property name="vexpand">True</property>
-                                    <property name="shadow_type">none</property>
-                                    <child>
-                                      <object class="GtkBox" id="vbx_links">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="hexpand">True</property>
-                                        <property name="orientation">vertical</property>
-                                        <child>
-                                          <object class="GtkLabel" id="lbl_reported_value">
-                                            <property name="can_focus">False</property>
-                                            <property name="no_show_all">True</property>
-                                            <property name="halign">start</property>
-                                            <property name="margin_top">5</property>
-                                            <property name="label">no</property>
-                                            <property name="selectable">True</property>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">0</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkLabel" id="label1">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="halign">start</property>
-                                            <property name="margin_top">8</property>
-                                            <property name="margin_bottom">8</property>
-                                            <property name="label" translatable="yes">&lt;a href="https://glade.gnome.org/"&gt;Very long placeholder URL tile&lt;/a&gt;</property>
-                                            <property name="use_markup">True</property>
-                                            <property name="ellipsize">middle</property>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">1</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkLabel" id="label2">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="halign">start</property>
-                                            <property name="margin_top">8</property>
-                                            <property name="margin_bottom">8</property>
-                                            <property name="label" translatable="yes">&lt;a href="https://github.com/abrt/gnome-abrt"&gt;Placeholder URL&lt;/a&gt;</property>
-                                            <property name="use_markup">True</property>
-                                            <property name="lines">1</property>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">2</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <placeholder/>
-                                        </child>
-                                      </object>
-                                    </child>
-                                  </object>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="left_attach">1</property>
-                                <property name="top_attach">3</property>
-                                <property name="width">2</property>
-                                <property name="height">2</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel" id="lbl_reported">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="halign">end</property>
-                                <property name="valign">start</property>
-                                <property name="margin_end">12</property>
-                                <property name="margin_top">8</property>
-                                <property name="margin_bottom">8</property>
-                                <property name="label" translatable="yes">Reported</property>
-                                <property name="wrap">True</property>
-                                <attributes>
-                                  <attribute name="foreground" value="#87877e7e8080"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left_attach">0</property>
-                                <property name="top_attach">3</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <placeholder/>
-                            </child>
-                            <child>
-                              <placeholder/>
-                            </child>
-                            <child>
-                              <placeholder/>
-                            </child>
-                            <child>
-                              <placeholder/>
-                            </child>
-                          </object>
-                          <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">1</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkScrolledWindow" id="gsw_problem_messages">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="vexpand">True</property>
-                            <child>
-                              <object class="GtkViewport" id="gvp_problem_messages">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="vexpand">True</property>
-                                <property name="shadow_type">none</property>
-                                <child>
-                                  <object class="GtkBox" id="vbx_problem_messages">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="vexpand">True</property>
-                                    <property name="orientation">vertical</property>
-                                    <child>
-                                      <placeholder/>
-                                    </child>
-                                  </object>
-                                </child>
-                              </object>
-                            </child>
-                          </object>
-                          <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">2</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkButton" id="btn_detail">
-                            <property name="label" translatable="yes">button</property>
-                            <property name="use_action_appearance">True</property>
-                            <property name="related_action">gac_detail</property>
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">True</property>
-                            <property name="halign">end</property>
-                            <property name="margin_start">12</property>
-                            <property name="margin_end">12</property>
-                            <property name="margin_top">12</property>
-                            <property name="margin_bottom">12</property>
-                          </object>
-                          <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">3</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                      </object>
-                    </child>
-                    <child type="tab">
-                      <object class="GtkLabel" id="lbl_page_problem">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label">Problem page</property>
-                      </object>
-                      <packing>
-                        <property name="tab_fill">False</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkBox" id="vbx_empty_page">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="orientation">vertical</property>
-                        <child>
-                          <object class="GtkLabel" id="lbl_no_oopses">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="hexpand">True</property>
-                            <property name="vexpand">True</property>
-                            <property name="label" translatable="yes">No problems detected!</property>
-                            <property name="selectable">True</property>
-                            <style>
-                              <class name="dim-label"/>
-                            </style>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child type="tab">
-                      <object class="GtkLabel" id="lbl_page_empty">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label">Empty page</property>
-                      </object>
-                      <packing>
-                        <property name="position">1</property>
-                        <property name="tab_fill">False</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkBox" id="vbx_no_source_page">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="orientation">vertical</property>
-                        <child>
-                          <object class="GtkLabel" id="lbl_no_source">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="hexpand">True</property>
-                            <property name="vexpand">True</property>
-                            <property name="label" translatable="yes">No source selected!</property>
-                            <property name="selectable">True</property>
-                            <style>
-                              <class name="dim-label"/>
-                            </style>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="position">2</property>
-                      </packing>
-                    </child>
-                    <child type="tab">
-                      <object class="GtkLabel" id="lbl_page_no_source">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">No source</property>
-                      </object>
-                      <packing>
-                        <property name="position">2</property>
-                        <property name="tab_fill">False</property>
-                      </packing>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="resize">True</property>
-                <property name="shrink">True</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="pack_type">end</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <placeholder/>
         </child>
       </object>
     </child>
