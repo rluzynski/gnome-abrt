@@ -278,6 +278,9 @@
                         <property name="valign">start</property>
                         <property name="icon_name">image-missing-symbolic</property>
                         <property name="icon_size">3</property>
+                        <style>
+                          <class name="dim-label"/>
+                        </style>
                       </object>
                       <packing>
                         <property name="left_attach">0</property>
