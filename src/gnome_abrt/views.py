@@ -800,12 +800,14 @@ class OopsWindow(Gtk.ApplicationWindow):
             self._builder.lbl_detected_value.set_tooltip_text(
                 problem['date'].strftime(config.get_configuration()['D_T_FMT']))
 
+            icon_size = self._builder.img_app_icon.get_scale_factor() * 64
+
             if app.icon:
                 self._builder.img_app_icon.set_from_pixbuf(
                         Gtk.IconTheme
                             .get_default()
                             .lookup_by_gicon(app.icon,
-                                             128,
+                                             icon_size,
                                              Gtk.IconLookupFlags.FORCE_SIZE)
                             .load_icon())
             else:
@@ -813,7 +815,7 @@ class OopsWindow(Gtk.ApplicationWindow):
                         Gtk.IconTheme
                             .get_default()
                             .lookup_icon("system-run-symbolic",
-                                         128,
+                                         icon_size,
                                          Gtk.IconLookupFlags.FORCE_SIZE |
                                          Gtk.IconLookupFlags.FORCE_SYMBOLIC)
                             .load_icon())
