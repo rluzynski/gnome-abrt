@@ -286,6 +286,8 @@ class OopsWindow(Gtk.ApplicationWindow):
 
             self.gr_main_layout = builder.get_object('gr_main_layout')
             self.box_header = builder.get_object('box_header')
+            self.box_header_start = builder.get_object('box_header_start')
+            self.box_header_end = builder.get_object('box_header_end')
 
             self.lbl_reason = builder.get_object('lbl_reason')
             self.lbl_summary = builder.get_object('lbl_summary')
@@ -856,6 +858,8 @@ _("This problem has been reported, but a <i>Bugzilla</i> ticket has not"
         if tbtn.get_active():
             self._builder.lb_problems.set_selection_mode(
                     Gtk.SelectionMode.MULTIPLE)
+            self._builder.box_header_start.get_style_context().add_class('selection-mode')
+            self._builder.box_header_end.get_style_context().add_class('selection-mode')
         else:
             row = self._builder.lb_problems.get_selected_row()
             if row is None:
@@ -866,6 +870,9 @@ _("This problem has been reported, but a <i>Bugzilla</i> ticket has not"
 
             if row is not None and self._filter.match(row):
                 self._builder.lb_problems.select_row(row)
+
+            self._builder.box_header_start.get_style_context().remove_class('selection-mode')
+            self._builder.box_header_end.get_style_context().remove_class('selection-mode')
 
     def on_tvs_problems_changed(self, selection):
         if not self._reloading:
