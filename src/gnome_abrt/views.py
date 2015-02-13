@@ -824,6 +824,7 @@ class OopsWindow(Gtk.ApplicationWindow):
                                              icon_size,
                                              Gtk.IconLookupFlags.FORCE_SIZE)
                             .load_icon())
+                self._builder.img_app_icon.get_style_context().remove_class('dim-label')
             else:
                 self._builder.img_app_icon.set_from_pixbuf(
                         Gtk.IconTheme
@@ -833,6 +834,7 @@ class OopsWindow(Gtk.ApplicationWindow):
                                          Gtk.IconLookupFlags.FORCE_SIZE |
                                          Gtk.IconLookupFlags.FORCE_SYMBOLIC)
                             .load_icon())
+                self._builder.img_app_icon.get_style_context().add_class('dim-label')
 
             self._builder.lbl_reported_value.show()
             self._builder.lbl_reported.set_text(_("Reported"))
