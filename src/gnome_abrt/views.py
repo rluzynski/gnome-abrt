@@ -325,7 +325,6 @@ class OopsWindow(Gtk.ApplicationWindow):
             self.menu_multiple_problems = builder.get_object(
                     'menu_multiple_problems')
             self.ag_accelerators = builder.get_object('ag_accelerators')
-            self.header_bar = None
 
         def connect_signals(self, implementor):
             self._builder.connect_signals(implementor)
