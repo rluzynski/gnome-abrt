@@ -17,6 +17,5 @@
 
 #pylint: disable=E0611
 from gnome_abrt.wrappers._wrappers import (show_events_list_dialog,
-                                           show_system_config_abrt_dialog,
                                            show_problem_details_for_dir,
                                            get_app_for_cmdline)
