@@ -267,7 +267,7 @@ class OopsWindow(Gtk.ApplicationWindow):
                     builder.set_translation_domain(GETTEXT_PROGNAME)
                     try:
                         builder.add_objects_from_file(filename=glade_file,
-                                                      object_ids=['box_header', 'image1', 'gr_main_layout', 'gag_problem_actions', 'menu_problem_item', 'menu_multiple_problems', 'ag_accelerators'])
+                                                      object_ids=['box_header', 'image1', 'image2', 'gr_main_layout', 'gag_problem_actions', 'menu_problem_item', 'menu_multiple_problems', 'ag_accelerators'])
                     #pylint: disable=E0712
                     except GObject.GError as ex:
                         builder = None
@@ -313,6 +313,11 @@ class OopsWindow(Gtk.ApplicationWindow):
             self.gac_open_directory = builder.get_object('gac_open_directory')
             self.gac_copy_id = builder.get_object('gac_copy_id')
             self.gac_search = builder.get_object('gac_search')
+            self.tbtn_search = builder.get_object('tbtn_search')
+
+            GObject.Binding.bind_property(self.tbtn_search, "active",
+                                          self.search_bar, "search-mode-enabled",
+                                          GObject.BindingFlags.BIDIRECTIONAL)
 
             self.menu_problem_item = builder.get_object('menu_problem_item')
             self.menu_multiple_problems = builder.get_object(
