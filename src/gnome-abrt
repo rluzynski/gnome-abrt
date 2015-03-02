@@ -57,7 +57,6 @@ from gnome_abrt.views import OopsWindow
 from gnome_abrt.controller import Controller
 from gnome_abrt.signals import glib_sigchld_signal_handler
 from gnome_abrt.problems import MultipleSources
-from gnome_abrt.directory_problems import DirectoryProblemSource
 from gnome_abrt.dbus_problems import (get_standard_problems_source,
                                       get_foreign_problems_source)
 from gnome_abrt.errors import UnavailableSource
@@ -174,7 +173,6 @@ class OopsApplication(Gtk.Application):
         self._dbus_srv = GtkAppDBUSImpl(GNOME_ABRT_APPLICATION_ID, self)
         self.connect("command-line", self._parse_command_line)
         self.set_flags(Gio.ApplicationFlags.HANDLES_COMMAND_LINE)
-        self.gcontext = None
         self.all_sources = None
         self._url_pool = GetURLTitleSourcePool(GNOME_ABRT_URL_POOL_CAPACITY)
         self._url_cache = GetURLTitleSourceCache(self._url_pool)
@@ -256,14 +254,6 @@ class OopsApplication(Gtk.Application):
                 #          get_foreign_problems_source())
                 #except UnavailableSource as ex:
                 #    logging.warning(str(ex))
-
-                self.gcontext = GLib.main_context_default()
-                try:
-                    path = os.path.join(GLib.get_user_cache_dir(), "abrt/spool")
-                    dps = DirectoryProblemSource(path, context=self.gcontext)
-                    sources.append(dps)
-                except UnavailableSource:
-                    logging.warning(str(ex))
 
                 if len(sources) == 0:
                     raise UnavailableSource("No available problem source.")
