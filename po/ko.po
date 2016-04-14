@@ -42,6 +42,14 @@ msgstr ""
 msgid "_Preferences"
 msgstr "환경 설정 (_P)"
 
+#: ../src/gnome-abrt:317
+msgid "_ABRT Configuration"
+msgstr "ABRT 설정 (_A)"
+
+#: ../src/gnome-abrt:318
+msgid "_Report problem with ABRT"
+msgstr "ABRT 관련 문제 보고 (_R) "
+
 #: ../src/gnome-abrt:316
 msgid "_About"
 msgstr "정보(_A)"
@@ -105,6 +113,43 @@ msgstr "DBus 서비스에서 문제 목록을 얻을 수 없습니다: {0!s}"
 #: ../src/gnome_abrt/dbus_problems.py:192
 msgid "Can't delete problem over DBus service: {0!s}"
 msgstr "DBus 서비스를 통해 문제를 삭제할 수 없습니다: {0!s}"
+
+#: ../src/gnome_abrt/dialogs.py:55
+msgid "The description of problem is too short"
+msgstr "문제에 대한 설명이 너무 짧습니다"
+
+#: ../src/gnome_abrt/dialogs.py:56
+msgid ""
+"In order to get more useful reports we do not accept reports with the "
+"description shorter than 10 letters."
+msgstr "보다 자세한 리포트를 위해 문제에 대한 설명은 최소한 10글자 이상 작성해주시기 바랍니다."
+
+#: ../src/gnome_abrt/dialogs.py:66
+msgid "The summary of problem is too short"
+msgstr "문제 요약 정보가 너무 짧습니다"
+
+#: ../src/gnome_abrt/dialogs.py:67
+msgid ""
+"In order to get more useful reports we do not accept reports with the "
+"summary shorter than 10 letters."
+msgstr "보다 자세한 리포트를 위해 문제에 대한 요약 설명은 최소한 10 글자 이상 작성해주시기 바랍니다."
+
+#: ../src/gnome_abrt/dialogs.py:93
+msgid "Problem description"
+msgstr "문제 설명"
+
+#: ../src/gnome_abrt/dialogs.py:101
+msgid "Summary:"
+msgstr "요약:"
+
+#: ../src/gnome_abrt/dialogs.py:120
+msgid "_Send"
+msgstr "보내기(_S)"
+
+#. Sets text but text is selected :)
+#: ../src/gnome_abrt/dialogs.py:134
+msgid "A problem with ABRT"
+msgstr "ABRT 관련 문제"
 
 #: ../src/gnome_abrt/directory_problems.py:216
 #, python-brace-format

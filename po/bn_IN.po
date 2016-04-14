@@ -32,13 +32,22 @@ msgstr "অামার"
 #. bugs". In this context "System" may be an adjective
 #. or a genitive noun, as required by your language.
 #: ../src/gnome-abrt:291 ../src/gnome-abrt:293
+#, fuzzy
 msgctxt "bugs"
 msgid "System"
-msgstr ""
+msgstr "সিস্টেম"
 
 #: ../src/gnome-abrt:313
 msgid "_Preferences"
 msgstr "পছন্দ (_P)"
+
+#: ../src/gnome-abrt:317
+msgid "_ABRT Configuration"
+msgstr "_ABRT কনফিগারেশন"
+
+#: ../src/gnome-abrt:318
+msgid "_Report problem with ABRT"
+msgstr "ABRT এর সমস্যার বিষয়ে জানান (_R)"
 
 #: ../src/gnome-abrt:316
 msgid "_About"
@@ -108,6 +117,47 @@ msgstr "DBus পরিসেবা থেকে সমস্যার তাল�
 #: ../src/gnome_abrt/dbus_problems.py:192
 msgid "Can't delete problem over DBus service: {0!s}"
 msgstr "DBus পরিসেবার মাধ্যমে সমস্যা মুছে ফেলা সম্ভব নয়: {0!s}"
+
+#: ../src/gnome_abrt/dialogs.py:55
+msgid "The description of problem is too short"
+msgstr "সমস্যার বিস্তারিত অত্যন্ত অপর্যাপ্ত"
+
+#: ../src/gnome_abrt/dialogs.py:56
+msgid ""
+"In order to get more useful reports we do not accept reports with the "
+"description shorter than 10 letters."
+msgstr ""
+"অারো উপযোগী রিপোর্ট পেতে অামরা ১০ অক্ষরের থেকে সংক্ষিপ্ত বর্ণনা বিশিষ্ট "
+"রিপোর্ট গ্রহণ করি না।"
+
+#: ../src/gnome_abrt/dialogs.py:66
+msgid "The summary of problem is too short"
+msgstr "সমস্যার সারাংশ অত্যন্ত অপর্যাপ্ত"
+
+#: ../src/gnome_abrt/dialogs.py:67
+msgid ""
+"In order to get more useful reports we do not accept reports with the "
+"summary shorter than 10 letters."
+msgstr ""
+"অারো উপযোগী রিপোর্ট পেতে অামরা ১০ অক্ষরের থেকে সারাংশ বিশিষ্ট রিপোর্ট গ্রহণ "
+"করি না।"
+
+#: ../src/gnome_abrt/dialogs.py:93
+msgid "Problem description"
+msgstr "সমস্যার বর্ণনা"
+
+#: ../src/gnome_abrt/dialogs.py:101
+msgid "Summary:"
+msgstr "সারাংশ:"
+
+#: ../src/gnome_abrt/dialogs.py:120
+msgid "_Send"
+msgstr "পাঠান (_S)"
+
+#. Sets text but text is selected :)
+#: ../src/gnome_abrt/dialogs.py:134
+msgid "A problem with ABRT"
+msgstr "ABRT এ কোনো সমস্যা হয়েছে"
 
 #: ../src/gnome_abrt/directory_problems.py:216
 #, python-brace-format

@@ -38,6 +38,14 @@ msgstr "Systémové"
 msgid "_Preferences"
 msgstr "_Nastavenia"
 
+#: ../src/gnome-abrt:317
+msgid "_ABRT Configuration"
+msgstr "Konfigurácia _ABRT"
+
+#: ../src/gnome-abrt:318
+msgid "_Report problem with ABRT"
+msgstr "Nahlásiť p_roblém s nástrojom ABRT"
+
 #: ../src/gnome-abrt:316
 msgid "_About"
 msgstr "_O programe"
@@ -109,6 +117,47 @@ msgstr "Nedá sa získať zoznam problémov zo služby zbernice DBus: {0!s}"
 #: ../src/gnome_abrt/dbus_problems.py:192
 msgid "Can't delete problem over DBus service: {0!s}"
 msgstr "Nedá sa odstrániť problém cez službu zbernice DBus: {0!s}"
+
+#: ../src/gnome_abrt/dialogs.py:55
+msgid "The description of problem is too short"
+msgstr "Popis problému je príliš krátky"
+
+#: ../src/gnome_abrt/dialogs.py:56
+msgid ""
+"In order to get more useful reports we do not accept reports with the "
+"description shorter than 10 letters."
+msgstr ""
+"Z dôvodu aby sme dostávali užitočnejšie hlásenia, neakceptujeme hlásenia s "
+"popisom kratším ako 10 znakov."
+
+#: ../src/gnome_abrt/dialogs.py:66
+msgid "The summary of problem is too short"
+msgstr "Súhrn problému je príliš krátky"
+
+#: ../src/gnome_abrt/dialogs.py:67
+msgid ""
+"In order to get more useful reports we do not accept reports with the "
+"summary shorter than 10 letters."
+msgstr ""
+"Z dôvodu aby sme dostávali užitočnejšie hlásenia, neakceptujeme hlásenia sú "
+"súhrnom kratším ako 10 znakov."
+
+#: ../src/gnome_abrt/dialogs.py:93
+msgid "Problem description"
+msgstr "Popis problému"
+
+#: ../src/gnome_abrt/dialogs.py:101
+msgid "Summary:"
+msgstr "Súhrn:"
+
+#: ../src/gnome_abrt/dialogs.py:120
+msgid "_Send"
+msgstr "_Odoslať"
+
+#. Sets text but text is selected :)
+#: ../src/gnome_abrt/dialogs.py:134
+msgid "A problem with ABRT"
+msgstr "Problém s nástrojom ABRT"
 
 #: ../src/gnome_abrt/directory_problems.py:216
 #, python-brace-format

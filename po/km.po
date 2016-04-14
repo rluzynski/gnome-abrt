@@ -32,6 +32,14 @@ msgstr ""
 msgid "_Preferences"
 msgstr "_ចំណង់ចំនូលចិត្ដ"
 
+#: ../src/gnome-abrt:317
+msgid "_ABRT Configuration"
+msgstr "_ការកំណត់ ABRT"
+
+#: ../src/gnome-abrt:318
+msgid "_Report problem with ABRT"
+msgstr "_រាយការណ៍បញ្ហារបស់ ABRT"
+
 #: ../src/gnome-abrt:316
 msgid "_About"
 msgstr "_អំពី"
@@ -98,6 +106,47 @@ msgstr "មិនអាចទទួល បញ្ជីបញ្ហាពីស�
 #: ../src/gnome_abrt/dbus_problems.py:192
 msgid "Can't delete problem over DBus service: {0!s}"
 msgstr "មិនអាចលុបបញ្ហាលើសេវា DBus : {0!s}"
+
+#: ../src/gnome_abrt/dialogs.py:55
+msgid "The description of problem is too short"
+msgstr "ការពិពណ៌នាអំពីបញ្ហានេះខ្លីពេក"
+
+#: ../src/gnome_abrt/dialogs.py:56
+msgid ""
+"In order to get more useful reports we do not accept reports with the "
+"description shorter than 10 letters."
+msgstr ""
+"ក្នុងគោលបំណងដើម្បីទទួលបានរបាយការណ៍មានសារៈប្រយោជន៍ ពួកយើងមិនទទួលយករបាយការណ៍ "
+"ជាមួយការពិពណ៍នាខ្លី ដែលមានតិចជាង ១០ តួអក្សរ"
+
+#: ../src/gnome_abrt/dialogs.py:66
+msgid "The summary of problem is too short"
+msgstr "ការសង្ខេមនៃបញ្ហាខ្លីពេក"
+
+#: ../src/gnome_abrt/dialogs.py:67
+msgid ""
+"In order to get more useful reports we do not accept reports with the "
+"summary shorter than 10 letters."
+msgstr ""
+"ក្នុងគោលបំណងដើម្បីទទួលបានរបាយការណ៍មានសារៈប្រយោជន៍ ពួកយើងមិនទទួលយករបាយការណ៍ "
+"ជាមួយការពិពណ៍នាខ្លី ដែលមានតិចជាង ១០ តួអក្សរ"
+
+#: ../src/gnome_abrt/dialogs.py:93
+msgid "Problem description"
+msgstr "ការពិពណ៌នាបញ្ហា"
+
+#: ../src/gnome_abrt/dialogs.py:101
+msgid "Summary:"
+msgstr "ការសង្ខេប"
+
+#: ../src/gnome_abrt/dialogs.py:120
+msgid "_Send"
+msgstr "_ផ្ញើរ"
+
+#. Sets text but text is selected :)
+#: ../src/gnome_abrt/dialogs.py:134
+msgid "A problem with ABRT"
+msgstr "បញ្ហាជាមួយ ABRT"
 
 #: ../src/gnome_abrt/directory_problems.py:216
 #, python-brace-format

@@ -40,6 +40,14 @@ msgstr ""
 msgid "_Preferences"
 msgstr "পছন্দসমূহ (_P)"
 
+#: ../src/gnome-abrt:317
+msgid "_ABRT Configuration"
+msgstr "ABRT সংৰূপ (_A)"
+
+#: ../src/gnome-abrt:318
+msgid "_Report problem with ABRT"
+msgstr "ABRT ৰ সৈতে সমস্যাৰ সংবাদন কৰক (_R)"
+
 #: ../src/gnome-abrt:316
 msgid "_About"
 msgstr "বিষয়ে (_A)"
@@ -107,6 +115,47 @@ msgstr "DBus সেৱাৰ পৰা সমস্যাসমূহৰ তা�
 #: ../src/gnome_abrt/dbus_problems.py:192
 msgid "Can't delete problem over DBus service: {0!s}"
 msgstr "DBus সেৱাৰ পৰা সমস্যা মচি পেলাব নোৱাৰি: {0!s}"
+
+#: ../src/gnome_abrt/dialogs.py:55
+msgid "The description of problem is too short"
+msgstr "সমস্যাৰ বিৱৰণ অতি সৰু"
+
+#: ../src/gnome_abrt/dialogs.py:56
+msgid ""
+"In order to get more useful reports we do not accept reports with the "
+"description shorter than 10 letters."
+msgstr ""
+"অধিক উপযোগী সংবাদসমূহ প্ৰাপ্ত কৰিবলে আমি 10 আখৰৰ কম বিৱৰণ থকা সংবাদসমূহ "
+"গ্ৰহণ নকৰো।"
+
+#: ../src/gnome_abrt/dialogs.py:66
+msgid "The summary of problem is too short"
+msgstr "সমস্যাৰ সাৰাংশ অতি সৰু"
+
+#: ../src/gnome_abrt/dialogs.py:67
+msgid ""
+"In order to get more useful reports we do not accept reports with the "
+"summary shorter than 10 letters."
+msgstr ""
+"অধিক উপযোগী সংবাদসমূহ প্ৰাপ্ত কৰিবলে আমি 10 আখৰৰ কম বিৱৰণ থকা সংবাদসমূহ "
+"গ্ৰহণ নকৰো।"
+
+#: ../src/gnome_abrt/dialogs.py:93
+msgid "Problem description"
+msgstr "সমস্যাৰ বিৱৰণ"
+
+#: ../src/gnome_abrt/dialogs.py:101
+msgid "Summary:"
+msgstr "সাৰাংশ:"
+
+#: ../src/gnome_abrt/dialogs.py:120
+msgid "_Send"
+msgstr "পঠাওক (_S)"
+
+#. Sets text but text is selected :)
+#: ../src/gnome_abrt/dialogs.py:134
+msgid "A problem with ABRT"
+msgstr "ABRT ৰ সৈতে এটা সমস্যা"
 
 #: ../src/gnome_abrt/directory_problems.py:216
 #, python-brace-format

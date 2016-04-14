@@ -39,6 +39,14 @@ msgstr ""
 msgid "_Preferences"
 msgstr "മുന്‍_ഗണനകള്‍"
 
+#: ../src/gnome-abrt:317
+msgid "_ABRT Configuration"
+msgstr "_എബിആര്‍റ്റി ക്രമീകരണം"
+
+#: ../src/gnome-abrt:318
+msgid "_Report problem with ABRT"
+msgstr "എബിആര്‍റ്റിയില്‍ പ്രശ്നം രേ_ഖപ്പെടുത്തുക"
+
 #: ../src/gnome-abrt:316
 msgid "_About"
 msgstr "സം_ബന്ധിച്ചു് "
@@ -112,6 +120,47 @@ msgstr ""
 #: ../src/gnome_abrt/dbus_problems.py:192
 msgid "Can't delete problem over DBus service: {0!s}"
 msgstr "ഡിബസ് സര്‍വീസിലുള്ള പ്രശ്നം വെട്ടി നീക്കുവാന്‍ സാധ്യമല്ല: {0!s}"
+
+#: ../src/gnome_abrt/dialogs.py:55
+msgid "The description of problem is too short"
+msgstr "പ്രശ്നത്തിന്റെ വിവരണം വളരെ ചെറുതു്"
+
+#: ../src/gnome_abrt/dialogs.py:56
+msgid ""
+"In order to get more useful reports we do not accept reports with the "
+"description shorter than 10 letters."
+msgstr ""
+"കൂടുതല്‍ പ്രയോജനകരമായ റിപ്പോര്‍ട്ടുകള്‍ ലഭ്യമാക്കുന്നതിനായി, 10 "
+"അക്ഷരങ്ങളില്‍ കുറഞ്ഞ വിവരണമുള്ള റിപ്പോര്‍ട്ടുകള്‍ സ്വീകരിയ്ക്കുന്നതല്ല."
+
+#: ../src/gnome_abrt/dialogs.py:66
+msgid "The summary of problem is too short"
+msgstr "പ്രശ്നത്തിന്റെ ചുരുക്കം വളരെ ചെറുതു്"
+
+#: ../src/gnome_abrt/dialogs.py:67
+msgid ""
+"In order to get more useful reports we do not accept reports with the "
+"summary shorter than 10 letters."
+msgstr ""
+"കൂടുതല്‍ പ്രയോജനകരമായ റിപ്പോര്‍ട്ടുകള്‍ ലഭ്യമാക്കുന്നതിനായി, 10 "
+"അക്ഷരങ്ങളില്‍ കുറഞ്ഞ ചുരുക്കമുള്ള റിപ്പോര്‍ട്ടുകള്‍ സ്വീകരിയ്ക്കുന്നതല്ല."
+
+#: ../src/gnome_abrt/dialogs.py:93
+msgid "Problem description"
+msgstr "പ്രശ്ന വിവരണം"
+
+#: ../src/gnome_abrt/dialogs.py:101
+msgid "Summary:"
+msgstr "ചുരുക്കം:"
+
+#: ../src/gnome_abrt/dialogs.py:120
+msgid "_Send"
+msgstr "_അയയ്ക്കുക"
+
+#. Sets text but text is selected :)
+#: ../src/gnome_abrt/dialogs.py:134
+msgid "A problem with ABRT"
+msgstr "എബിആര്‍റ്റിയില്‍ ഒരു പ്രശ്നം"
 
 #: ../src/gnome_abrt/directory_problems.py:216
 #, python-brace-format

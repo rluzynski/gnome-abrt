@@ -39,6 +39,14 @@ msgstr "Системске"
 msgid "_Preferences"
 msgstr "_Поставке"
 
+#: ../src/gnome-abrt:317
+msgid "_ABRT Configuration"
+msgstr "_ABRT Подешавање"
+
+#: ../src/gnome-abrt:318
+msgid "_Report problem with ABRT"
+msgstr "_Пријави проблем са ABRT-ом"
+
 #: ../src/gnome-abrt:316
 msgid "_About"
 msgstr "_О програму"
@@ -110,6 +118,47 @@ msgstr "Не могу да примим списак проблема од DBus 
 #: ../src/gnome_abrt/dbus_problems.py:192
 msgid "Can't delete problem over DBus service: {0!s}"
 msgstr "Не могу да обришем проблем преко DBus сервиса: {0!s}"
+
+#: ../src/gnome_abrt/dialogs.py:55
+msgid "The description of problem is too short"
+msgstr "Опис проблема је превише кратак"
+
+#: ../src/gnome_abrt/dialogs.py:56
+msgid ""
+"In order to get more useful reports we do not accept reports with the "
+"description shorter than 10 letters."
+msgstr ""
+"Да бисмо добили што корисније пријаве не прихватамо извештаје краће од 10 "
+"слова."
+
+#: ../src/gnome_abrt/dialogs.py:66
+msgid "The summary of problem is too short"
+msgstr "Резиме проблема је превише кратак"
+
+#: ../src/gnome_abrt/dialogs.py:67
+msgid ""
+"In order to get more useful reports we do not accept reports with the "
+"summary shorter than 10 letters."
+msgstr ""
+"Да бисмо добили што корисније пријаве не прихватамо резиме краћи од 10 слова."
+""
+
+#: ../src/gnome_abrt/dialogs.py:93
+msgid "Problem description"
+msgstr "Опис проблема"
+
+#: ../src/gnome_abrt/dialogs.py:101
+msgid "Summary:"
+msgstr "Резиме:"
+
+#: ../src/gnome_abrt/dialogs.py:120
+msgid "_Send"
+msgstr "_Пошаљи"
+
+#. Sets text but text is selected :)
+#: ../src/gnome_abrt/dialogs.py:134
+msgid "A problem with ABRT"
+msgstr "Проблем са ABRT-ом"
 
 #: ../src/gnome_abrt/directory_problems.py:216
 #, python-brace-format
